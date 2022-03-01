@@ -1,19 +1,31 @@
 // Take input and load data
 const loadPhonesData = () => {
   const inputField = document.getElementById("input-filed");
+  isDisplayShow("spinner-toogler", "block");
   const inputFieldValue = inputField.value;
-  const searchUrl = `https://openapi.programming-hero.com/api/phones?search=${"oppo"}`;
+  const searchUrl = `https://openapi.programming-hero.com/api/phones?search=${inputFieldValue}`;
   fetch(searchUrl)
     .then((res) => res.json())
     .then((data) => displayPhones(data.data));
   inputField.value = "";
 };
-loadPhonesData();
+// DIsplay Function
+const isDisplayShow = (id, displayProperty) => {
+  document.getElementById(id).style.display = displayProperty;
+};
 // Loaded data display in HTML
 const displayPhones = (phones) => {
+  console.log(phones);
   const cardConatiner = document.getElementById("cards-container");
   cardConatiner.textContent = "";
-  phones.forEach((phone) => {
+  if (phones.length == 0) {
+    isDisplayShow("spinner-toogler", "none");
+    isDisplayShow("no-phone", "block");
+    return;
+  } else {
+    isDisplayShow("no-phone", "none");
+  }
+  phones?.forEach((phone) => {
     const div = document.createElement("div");
     div.classList.add("col");
     div.innerHTML = `
@@ -30,6 +42,7 @@ const displayPhones = (phones) => {
         `;
     cardConatiner.appendChild(div);
   });
+  isDisplayShow("spinner-toogler", "none");
 };
 
 const loadPhoneSlug = (phoneSlug) => {
@@ -45,14 +58,10 @@ const loadUniquePhone = (phoneId) => {
   // sensors
   const sensors = mainFeatures.sensors;
   const allSensors = sensors.join(", ");
-  // others 
+  // others
   const others = phoneId.others;
-  const othersArray = Object.entries(others);
-  console.log(othersArray);
-  for (const [key,value] of othersArray) {
-    console.log(key + ":" + value)
-  }
-  
+  // const othersArray = Object.entries(others);
+
   const modalDiv = document.getElementById("modal-div");
   modalDiv.textContent = "";
   const card = document.createElement("div");
@@ -92,15 +101,31 @@ const loadUniquePhone = (phoneId) => {
           }</p>
         </div>
       </div>
-  `
+  `;
   const col = document.createElement("div");
   col.classList.add("col");
-  col.innerHTML=`<span class="fw-bold ms-3">Others: </span>`
-  for (const [key,value] of othersArray) {
+  col.innerHTML = `<span class="fw-bold ms-3"><i class="fa-solid fa-arrow-up-wide-short"></i> Others: </span>`;
+  // console.log(typeof Object.entries(others));
+  if (others == undefined) {
     const p = document.createElement("p");
-    p.classList.add("list-group-item","list-group-item-action" ,"list-group-item-light");
+    p.classList.add(
+      "list-group-item",
+      "list-group-item-action",
+      "list-group-item-light"
+    );
+    p.innerText = `No Data Availbale`;
+    col.appendChild(p);
+  } else {
+  for (const [key, value] of Object.entries(others)) {
+    const p = document.createElement("p");
+    p.classList.add(
+      "list-group-item",
+      "list-group-item-action",
+      "list-group-item-light"
+    );
     p.innerText = `${key} : ${value}`;
     col.appendChild(p);
+    }
   }
   card.appendChild(cardBody);
   cardBody.appendChild(col);
