@@ -2,7 +2,7 @@
 const loadPhonesData = () => {
   const inputField = document.getElementById("input-filed");
   const inputFieldValue = inputField.value;
-  const searchUrl = `https://openapi.programming-hero.com/api/phones?search=${inputFieldValue}`;
+  const searchUrl = `https://openapi.programming-hero.com/api/phones?search=${"oppo"}`;
   fetch(searchUrl)
     .then((res) => res.json())
     .then((data) => displayPhones(data.data));
@@ -40,17 +40,30 @@ const loadPhoneSlug = (phoneSlug) => {
 };
 // display one phone details using slug
 const loadUniquePhone = (phoneId) => {
+  // main fetures
   const mainFeatures = phoneId.mainFeatures;
+  // sensors
   const sensors = mainFeatures.sensors;
   const allSensors = sensors.join(", ");
+  // others 
+  const others = phoneId.others;
+  const othersArray = Object.entries(others);
+  console.log(othersArray);
+  for (const [key,value] of othersArray) {
+    console.log(key + ":" + value)
+  }
+  
   const modalDiv = document.getElementById("modal-div");
   modalDiv.textContent = "";
-  const div = document.createElement("div");
-  div.classList.add("card", "border-primary");
-  div.innerHTML = `
+  const card = document.createElement("div");
+  card.classList.add("card", "border-primary");
+  card.innerHTML = `
   <img src="${phoneId.image}" class="card-img-top w-50 mx-auto pt-2" alt="...">
-  <div class="card-body">
-    <h4 class="card-title fw-bold m-0">${phoneId.name}</h4>
+  `;
+  const cardBody = document.createElement("div");
+  cardBody.classList.add("card-body");
+  cardBody.innerHTML = `
+  <h4 class="card-title fw-bold m-0">${phoneId.name}</h4>
     <p class="card-text text-secondary"><i class="fa-solid fa-calendar-days"></i> <span>Release date: </span> ${
       phoneId.releaseDate ? phoneId.releaseDate : "Sorry! No release date found"
     }</p>
@@ -79,9 +92,17 @@ const loadUniquePhone = (phoneId) => {
           }</p>
         </div>
       </div>
-   </div>
-
-  </div>
-  `;
-  modalDiv.appendChild(div);
+  `
+  const col = document.createElement("div");
+  col.classList.add("col");
+  col.innerHTML=`<span class="fw-bold ms-3">Others: </span>`
+  for (const [key,value] of othersArray) {
+    const p = document.createElement("p");
+    p.classList.add("list-group-item","list-group-item-action" ,"list-group-item-light");
+    p.innerText = `${key} : ${value}`;
+    col.appendChild(p);
+  }
+  card.appendChild(cardBody);
+  cardBody.appendChild(col);
+  modalDiv.appendChild(card);
 };
