@@ -42,39 +42,40 @@ const loadPhoneSlug = (phoneSlug) => {
 const loadUniquePhone = (phoneId) => {
   const mainFeatures = phoneId.mainFeatures;
   const sensors = mainFeatures.sensors;
+  const allSensors = sensors.join(", ");
   const modalDiv = document.getElementById("modal-div");
+  modalDiv.textContent = "";
   const div = document.createElement("div");
-  div.classList.add("card");
-  div.classList.add("border-primary");
+  div.classList.add("card", "border-primary");
   div.innerHTML = `
   <img src="${phoneId.image}" class="card-img-top w-50 mx-auto pt-2" alt="...">
   <div class="card-body">
     <h4 class="card-title fw-bold m-0">${phoneId.name}</h4>
-    <p class="card-text text-secondary"><i class="fa-solid fa-calendar-days"></i> ${
+    <p class="card-text text-secondary"><i class="fa-solid fa-calendar-days"></i> <span>Release date: </span> ${
       phoneId.releaseDate ? phoneId.releaseDate : "Sorry! No release date found"
     }</p>
     <div class="list-group">
       <div class="row row-cols-1 g-1">
         <div class="col">
-          <p class="list-group-item list-group-item-action list-group-item-light"><i class="fa-solid fa-hard-drive"></i> Storage: ${
+          <p class="list-group-item list-group-item-action list-group-item-light"><i class="fa-solid fa-hard-drive"></i> <span class="fw-bold">Storage:</span> ${
             mainFeatures.storage ? mainFeatures.storage : "Sorry! No date found"
           }</p>
         </div>
         <div class="col h-100">
-          <p class="list-group-item list-group-item-action list-group-item-light"><i class="fa-solid fa-mobile-screen-button"></i> Display Size: ${
+          <p class="list-group-item list-group-item-action list-group-item-light"><i class="fa-solid fa-mobile-screen-button"></i> <span class="fw-bold">Display Size: </span> ${
             mainFeatures.displaySize
               ? mainFeatures.displaySize
               : "Sorry! No date found"
           }</p>
         </div>
         <div class="col">
-          <p class="list-group-item list-group-item-action list-group-item-light"><i class="fa-solid fa-microchip"></i> Processor:  ${
+          <p class="list-group-item list-group-item-action list-group-item-light"><i class="fa-solid fa-microchip"></i> <span class="fw-bold">Processor:</span>  ${
             mainFeatures.chipSet ? mainFeatures.chipSet : "Sorry! No date found"
           }</p>
         </div>
         <div class="col">
-          <p class="list-group-item list-group-item-action list-group-item-light"><i class="fa-solid fa-memory"></i> Memory:  ${
-            mainFeatures.memory ? mainFeatures.memory : "Sorry! No date found"
+          <p class="list-group-item list-group-item-action list-group-item-light"><i class="fa-solid fa-bahai"></i> <span class="fw-bold">Sensor:</span> ${
+            allSensors ? allSensors : "Sorry! No date found"
           }</p>
         </div>
       </div>
@@ -82,21 +83,5 @@ const loadUniquePhone = (phoneId) => {
 
   </div>
   `;
-  debugger;
-  const div2 = document.createElement("div");
-  div2.classList.add("col");
-  div2.innerHTML = `Sensor: 
-  <p class="list-group-item list-group-item-action list-group-item-light"><i class="fa-solid fa-memory"></i> Memory:  ${
-    mainFeatures.memory ? mainFeatures.memory : "Sorry! No date found"
-  }</p>`;
-  const seno = () =>{
-    sensors.forEach((sensor) => {
-      const p = document.createElement("p");
-      p.innerText = sensor;
-      div2.appendChild(p);
-    });
-  }
-  seno()
-  div.appendChild(div2);
   modalDiv.appendChild(div);
 };
