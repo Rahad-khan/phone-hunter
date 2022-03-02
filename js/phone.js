@@ -1,3 +1,15 @@
+// Global variable
+const cardConatiner = document.getElementById("cards-container");
+// col div function
+const colDiv = () => {
+  const div = document.createElement("div");
+  div.classList.add("col");
+  return div;
+};
+// DIsplay Function
+const isDisplayShow = (id, displayProperty) => {
+  document.getElementById(id).style.display = displayProperty;
+};
 // Take input and load data
 const loadPhonesData = () => {
   const inputField = document.getElementById("input-filed");
@@ -9,31 +21,16 @@ const loadPhonesData = () => {
     .then((data) => displayPhones(data.data));
   inputField.value = "";
 };
-// col div function
-const colDiv = () => {
-  const div = document.createElement("div");
-  div.classList.add("col");
-  return div;
-};
-
-// DIsplay Function
-const isDisplayShow = (id, displayProperty) => {
-  document.getElementById(id).style.display = displayProperty;
-};
-// Global variable
-const cardConatiner = document.getElementById("cards-container");
 // Loaded data display in HTML
 const displayPhones = (phones) => {
   // First twenty phones
   const twentyPhones = phones.slice(0, 20);
   const restOfPhones = phones.slice(20, phones.length);
-  console.log(restOfPhones);
-
-  // const cardConatiner = document.getElementById("cards-container");
   cardConatiner.textContent = "";
   //No data found
   if (phones.length == 0) {
     isDisplayShow("spinner-toogler", "none");
+    isDisplayShow("show-more", "none");
     isDisplayShow("no-phone", "block");
     return;
   } else {
@@ -55,6 +52,7 @@ const displayPhones = (phones) => {
         `;
     cardConatiner.appendChild(div);
   });
+  console.log(phones.length);
   if (phones.length > 20) {
     isDisplayShow("show-more", "block");
   }
@@ -89,7 +87,7 @@ const loadPhoneSlug = (phoneSlug) => {
     .then((res) => res.json())
     .then((data) => loadUniquePhone(data.data));
 };
-// display one phone details using slug
+// display one phone details using slug by Modal
 const loadUniquePhone = (phoneId) => {
   // main fetures
   const mainFeatures = phoneId.mainFeatures;
@@ -98,8 +96,6 @@ const loadUniquePhone = (phoneId) => {
   const allSensors = sensors.join(", ");
   // others
   const others = phoneId.others;
-  // const othersArray = Object.entries(others);
-
   const modalDiv = document.getElementById("modal-div");
   modalDiv.textContent = "";
   const card = document.createElement("div");

@@ -1,13 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700;900&display=swap");
 
 body {
-    font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 /* for error */
-#no-phone, #show-more {
-   display: none; 
+#no-phone,
+#show-more {
+  display: none;
 }
 /* FOr spinner */
 #spinner-toogler {
-   display: none;
+  display: none;
 }
