@@ -3,9 +3,11 @@
 body {
     font-family: 'Poppins', sans-serif;
 }
-#no-phone {
+/* for error */
+#no-phone, #show-more {
    display: none; 
 }
+/* FOr spinner */
 #spinner-toogler {
    display: none;
 }

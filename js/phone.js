@@ -9,18 +9,27 @@ const loadPhonesData = () => {
     .then((data) => displayPhones(data.data));
   inputField.value = "";
 };
+// col div function
+const colDiv = () => {
+  const div = document.createElement("div");
+  div.classList.add("col");
+  return div;
+};
+
 // DIsplay Function
 const isDisplayShow = (id, displayProperty) => {
   document.getElementById(id).style.display = displayProperty;
 };
+// Global variable
+const cardConatiner = document.getElementById("cards-container");
 // Loaded data display in HTML
 const displayPhones = (phones) => {
   // First twenty phones
-  const twentyPhones = phones.slice(0,20);
-  const restOfPhones = phones.slice(20,phones.length);
-  console.log(twentyPhones ,restOfPhones, phones)
+  const twentyPhones = phones.slice(0, 20);
+  const restOfPhones = phones.slice(20, phones.length);
+  console.log(restOfPhones);
 
-  const cardConatiner = document.getElementById("cards-container");
+  // const cardConatiner = document.getElementById("cards-container");
   cardConatiner.textContent = "";
   //No data found
   if (phones.length == 0) {
@@ -31,8 +40,7 @@ const displayPhones = (phones) => {
     isDisplayShow("no-phone", "none");
   }
   twentyPhones?.forEach((phone) => {
-    const div = document.createElement("div");
-    div.classList.add("col");
+    const div = colDiv();
     div.innerHTML = `
             <div class="card p-3 shadow text-center">
               <img src="${phone.image}" class="card-img-top w-50 mx-auto" alt="...">
@@ -45,7 +53,32 @@ const displayPhones = (phones) => {
               </div>
             </div>
         `;
+    cardConatiner.appendChild(div);
+  });
+  if (phones.length > 20) {
+    isDisplayShow("show-more", "block");
+  }
+  // SHowmore phone;
+  document.getElementById("show-more").addEventListener("click", function () {
+    cardConatiner.textContent = "";
+    restOfPhones?.forEach((phone) => {
+      console.log(phone);
+      const div = colDiv();
+      div.innerHTML = `
+                <div class="card p-3 shadow text-center">
+                  <img src="${phone.image}" class="card-img-top w-50 mx-auto" alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title">${phone.phone_name}</h5>
+                    <p class="card-text">${phone.brand}</p>
+                    <div class="d-flex justify-content-center">
+                      <button class="btn btn-primary" onclick="loadPhoneSlug('${phone.slug}')" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Explore More</button>
+                    </div>
+                  </div>
+                </div>
+            `;
       cardConatiner.appendChild(div);
+    });
+    isDisplayShow("show-more", "none");
   });
   isDisplayShow("spinner-toogler", "none");
 };
@@ -84,24 +117,24 @@ const loadUniquePhone = (phoneId) => {
     <div class="list-group">
       <div class="row row-cols-1 g-1">
         <div class="col">
-          <p class="list-group-item list-group-item-action list-group-item-light"><i class="fa-solid fa-hard-drive"></i> <span class="fw-bold">Storage:</span> ${
+          <p class="list-group-item list-group-item-action list-group-item-light"><i class="fa-solid fa-hard-drive"></i> <span class="fw-bold text-black">Storage:</span> ${
             mainFeatures.storage ? mainFeatures.storage : "Sorry! No date found"
           }</p>
         </div>
         <div class="col h-100">
-          <p class="list-group-item list-group-item-action list-group-item-light"><i class="fa-solid fa-mobile-screen-button"></i> <span class="fw-bold">Display Size: </span> ${
+          <p class="list-group-item list-group-item-action list-group-item-light"><i class="fa-solid fa-mobile-screen-button"></i> <span class="fw-bold text-black">Display Size: </span> ${
             mainFeatures.displaySize
               ? mainFeatures.displaySize
               : "Sorry! No date found"
           }</p>
         </div>
         <div class="col">
-          <p class="list-group-item list-group-item-action list-group-item-light"><i class="fa-solid fa-microchip"></i> <span class="fw-bold">Processor:</span>  ${
+          <p class="list-group-item list-group-item-action list-group-item-light"><i class="fa-solid fa-microchip"></i> <span class="fw-bold text-black">Processor:</span>  ${
             mainFeatures.chipSet ? mainFeatures.chipSet : "Sorry! No date found"
           }</p>
         </div>
         <div class="col">
-          <p class="list-group-item list-group-item-action list-group-item-light"><i class="fa-solid fa-bahai"></i> <span class="fw-bold">Sensor:</span> ${
+          <p class="list-group-item list-group-item-action list-group-item-light"><i class="fa-solid fa-bahai"></i> <span class="fw-bold text-black">Sensor:</span> ${
             allSensors ? allSensors : "Sorry! No date found"
           }</p>
         </div>
@@ -120,15 +153,15 @@ const loadUniquePhone = (phoneId) => {
     p.innerText = `No Data Availbale`;
     col.appendChild(p);
   } else {
-  for (const [key, value] of Object.entries(others)) {
-    const p = document.createElement("p");
-    p.classList.add(
-      "list-group-item",
-      "list-group-item-action",
-      "list-group-item-light"
-    );
-    p.innerText = `${key} : ${value}`;
-    col.appendChild(p);
+    for (const [key, value] of Object.entries(others)) {
+      const p = document.createElement("p");
+      p.classList.add(
+        "list-group-item",
+        "list-group-item-action",
+        "list-group-item-light"
+      );
+      p.innerText = `${key} : ${value}`;
+      col.appendChild(p);
     }
   }
   card.appendChild(cardBody);
