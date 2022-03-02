@@ -15,9 +15,14 @@ const isDisplayShow = (id, displayProperty) => {
 };
 // Loaded data display in HTML
 const displayPhones = (phones) => {
-  console.log(phones);
+  // First twenty phones
+  const twentyPhones = phones.slice(0,20);
+  const restOfPhones = phones.slice(20,phones.length);
+  console.log(twentyPhones ,restOfPhones, phones)
+
   const cardConatiner = document.getElementById("cards-container");
   cardConatiner.textContent = "";
+  //No data found
   if (phones.length == 0) {
     isDisplayShow("spinner-toogler", "none");
     isDisplayShow("no-phone", "block");
@@ -25,7 +30,7 @@ const displayPhones = (phones) => {
   } else {
     isDisplayShow("no-phone", "none");
   }
-  phones?.forEach((phone) => {
+  twentyPhones?.forEach((phone) => {
     const div = document.createElement("div");
     div.classList.add("col");
     div.innerHTML = `
@@ -40,7 +45,7 @@ const displayPhones = (phones) => {
               </div>
             </div>
         `;
-    cardConatiner.appendChild(div);
+      cardConatiner.appendChild(div);
   });
   isDisplayShow("spinner-toogler", "none");
 };
@@ -105,7 +110,6 @@ const loadUniquePhone = (phoneId) => {
   const col = document.createElement("div");
   col.classList.add("col");
   col.innerHTML = `<span class="fw-bold ms-3"><i class="fa-solid fa-arrow-up-wide-short"></i> Others: </span>`;
-  // console.log(typeof Object.entries(others));
   if (others == undefined) {
     const p = document.createElement("p");
     p.classList.add(
