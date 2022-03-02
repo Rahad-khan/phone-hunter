@@ -28,7 +28,7 @@ const displayPhones = (phones) => {
   const restOfPhones = phones.slice(20, phones.length);
   cardConatiner.textContent = "";
   //No data found
-  if (phones.length == 0) {
+  if (phones.length === 0) {
     isDisplayShow("spinner-toogler", "none");
     isDisplayShow("show-more", "none");
     isDisplayShow("no-phone", "block");
