@@ -52,7 +52,6 @@ const displayPhones = (phones) => {
         `;
     cardConatiner.appendChild(div);
   });
-  console.log(phones.length);
   if (phones.length > 20) {
     isDisplayShow("show-more", "block");
   }
@@ -60,7 +59,6 @@ const displayPhones = (phones) => {
   document.getElementById("show-more").addEventListener("click", function () {
     cardConatiner.textContent = "";
     restOfPhones?.forEach((phone) => {
-      console.log(phone);
       const div = colDiv();
       div.innerHTML = `
                 <div class="card p-3 shadow text-center">
